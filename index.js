@@ -10,11 +10,12 @@ app.get("*", async (req, res) => {
     const file = Buffer.from(
       await fetch(`http://www.redistrictinggame.org/game${req.path}`).then((res) => res.arrayBuffer())
     );
-    let path = req.path.split("/");
+    let path = decodeURIComponent(req.path).split("/");
     path.pop();
     path = path.join("/");
+    console.log(req.path, path);
     fs.ensureDirSync(`public${path}`);
-    fs.writeFile(`public${req.path}`, file);
+    fs.writeFile(`public${decodeURIComponent(req.path)}`, file);
     res.send(file);
   } catch (err) {
     console.error(err);
