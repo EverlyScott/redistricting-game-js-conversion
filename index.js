@@ -14,7 +14,6 @@ app.get("*", async (req, res) => {
     let path = decodeURIComponent(req.path).split("/");
     path.pop();
     path = path.join("/");
-    console.log(req.path, path);
     fs.ensureDirSync(`public${path}`);
     fs.writeFile(`public${decodeURIComponent(req.path)}`, file);
     res.send(file);
