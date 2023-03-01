@@ -1,5 +1,6 @@
 const express = require("express");
 const fs = require("fs-extra");
+const axios = require("axios");
 
 const app = express();
 
@@ -8,7 +9,7 @@ app.use("/", express.static("public"));
 app.get("*", async (req, res) => {
   try {
     const file = Buffer.from(
-      await fetch(`http://www.redistrictinggame.org/game${req.path}`).then((res) => res.arrayBuffer())
+      (await axios(`http://www.redistrictinggame.org/game${req.path}`, { responseType: "arraybuffer" })).data
     );
     let path = decodeURIComponent(req.path).split("/");
     path.pop();
